@@ -1,4 +1,4 @@
-package milmilkyway
+package milkyway
 
 import (
 	"fmt"
