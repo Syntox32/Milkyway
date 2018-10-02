@@ -45,7 +45,7 @@ func GenMilkyway() *Milkyway {
 	return m
 }
 
-func (m *Milkyway) httpError(code int, w http.ResponseWriter, path string) {
+func (m *Milkyway) HttpError(code int, w http.ResponseWriter, path string) {
 	log.Printf("%d - %s", code, path)
 	if m.JsonErrors {
 		w.Header().Add("Content-Type", "application/json")
@@ -77,9 +77,9 @@ func (m *Milkyway) Router(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if foundMatch && !foundMethod {
-		m.httpError(http.StatusMethodNotAllowed, w, r.URL.Path)
+		m.HttpError(http.StatusMethodNotAllowed, w, r.URL.Path)
 	} else {
-		m.httpError(http.StatusNotFound, w, r.URL.Path)
+		m.HttpError(http.StatusNotFound, w, r.URL.Path)
 	}
 }
 
@@ -95,7 +95,7 @@ func (m *Milkyway) Route(method string, pattern string, fn JsonHandler) {
 	m.Routes = append(m.Routes, route)
 }
 
-func (m *Milkyway) Serve() {
-	log.Println("Listening on port 8080...")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+func (m *Milkyway) Serve(port string) {
+	log.Printf("Listening on port %s...", port)
+	log.Fatal(http.ListenAndServe(":" + port, nil))
 }
